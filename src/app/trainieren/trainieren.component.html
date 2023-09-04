@@ -1,0 +1,21 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Training</mat-card-title>
+  </mat-card-header>
+  <img
+    mat-card-image
+    src="https://img.freepik.com/premium-vector/man-character-thinking_155707-268.jpg?w=2000"
+    alt="Photo of a Shiba Inu"
+  />
+
+  <div>gegebenes Wort: {{ randomWord.english }}</div>
+
+  <mat-form-field>
+    <mat-label>gesuchtes Wort: </mat-label>
+    <input matInput [(ngModel)]="word.english" />
+  </mat-form-field>
+  <mat-card-actions>
+    <button mat-button>Check</button>
+    <button mat-button (click)="nextRandomWord()">Next</button>
+  </mat-card-actions>
+</mat-card>

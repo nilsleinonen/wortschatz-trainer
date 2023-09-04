@@ -1,0 +1,103 @@
+<mat-card class="word-card">
+  <mat-card-header>
+    <mat-card-title>Wortpaar</mat-card-title>
+    <mat-card-subtitle> erfassen/bearbeiten</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-form-field>
+    <mat-label>Deutsch</mat-label>
+    <input matInput [(ngModel)]="word.german" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Englisch</mat-label>
+    <input matInput [(ngModel)]="word.english" />
+  </mat-form-field>
+
+  <mat-card-actions>
+    <button
+      mat-button
+      *ngIf="isEditEnabled"
+      (click)="updateWord()"
+      mat-raised-button
+      color="primary"
+    >
+      Update
+    </button>
+
+    <button
+      mat-button
+      *ngIf="!isEditEnabled"
+      (click)="addWord()"
+      mat-raised-button
+      color="primary"
+    >
+      Speichern
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<div class="sorting-buttons">
+  <mat-button-toggle-group #group="matButtonToggleGroup">
+    <mat-button-toggle (click)="sortWordsAlphabeticallyGerman()">
+      Deutsch alph. sortieren
+    </mat-button-toggle>
+
+    <mat-button-toggle
+      color="accent"
+      (click)="sortWordsAlphabeticallyEnglish()"
+    >
+      Englisch alph. sortieren
+    </mat-button-toggle>
+
+    <mat-button-toggle (click)="deleteAllWords()">
+      alles zurücksetzen
+    </mat-button-toggle>
+    <mat-button-toggle (click)="addSampleData()">
+      Beispieldaten holen
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
+<div
+  cdkDropList
+  [cdkDropListData]="words"
+  class="example-list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <!--Sortiert alle Wortpaare alphatisch nach Deutsch-->
+  <div class="wordList" *ngIf="isGerSortEnabled === true">
+    <mat-card *ngFor="let word of words; let i = index" cdkDrag class="card">
+      <mat-card-header>
+        Deutsch: {{ word.german }} <br />
+        Englisch: {{ word.english }}
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-icon-button color="warn" (click)="deleteWord(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="onEdit(word, i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!--Sortiert alle Wortpaare alphatisch nach Englisch-->
+  <div class="wordList" *ngIf="isEngSortEnabled === true">
+    <mat-card *ngFor="let word of words; let i = index" cdkDrag class="card">
+      <mat-card-header>
+        Englisch: {{ word.english }} <br />
+        Deutsch: {{ word.german }}
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-icon-button color="warn" (click)="deleteWord(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="onEdit(word, i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
